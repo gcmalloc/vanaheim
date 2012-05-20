@@ -1,0 +1,6 @@
+# tmp files
+*~
+\#*
+
+# Python files
+*.pyc
