@@ -25,13 +25,20 @@ SUMMARY_DELIMITER = settings.SUMMARY_DELIMITER \
 SITE_PATH = settings.SITE_PATH \
     if hasattr(settings, 'SITE_PATH') else ''
 MOVIES_PATH = settings.MOVIES_PATH \
-    if hasattr(settings, 'MOVIES_PATH') else ''
+    if hasattr(settings, 'MOVIES_PATH') else 'movies'
+SLIDES_PATH = settings.SLIDES_PATH \
+    if hasattr(settings, 'SLIDES_PATH') else 'slides'
 PICS_PATH = settings.PICS_PATH \
-    if hasattr(settings, 'PICS_PATH') else ''
+    if hasattr(settings, 'PICS_PATH') else 'pics'
 DL_PATH = settings.DL_PATH \
-    if hasattr(settings, 'DL_PATH') else ''
+    if hasattr(settings, 'DL_PATH') else 'downloads'
+STATIC_PATH = settings.STATIC_PATH \
+    if hasattr(settings, 'STATIC_PATH') else 'static'
 DISQUS_SHORTNAME = settings.DISQUS_SHORTNAME \
     if hasattr(settings, 'DISQUS_SHORTNAME') else ''
+
+CTYPE_LIST = {'a': 'articles', 'b': 'breves', 's': 'static', 'w': 'slides'}
+
 
 def get_file_contents(path,filename):
     file_handle = open(path + filename, 'r')
@@ -42,10 +49,10 @@ def extract_meta(contents):
     print 'toto'
     
 
-def gen_url(filename, letter):
+def gen_url(filename, ctype):
     ''' Define an url for a document using its filename and its type '''
     basename = splitext(filename)[0]
-    url = '/'+letter+'/'+basename
+    url = '/'+ctype+'/'+basename
     return url
 
 @vanaheim.get('/')
@@ -53,10 +60,19 @@ def home():
     ''' Homepage definition '''
     return 'Hello'
 
+@vanaheim.get('/<ctype>/<name>')
+def screen_contents(ctype,name):
+    ''' Return some file contents using its name and metadatas '''
+    
+
 @vanaheim.get('/d/<filename:path>')
 def download(filename):
     ''' Force download for files hosted in the downloads folder '''
     return static_file(filename, root=DL_PATH, download=filename)
+
+@vanaheim.get('/s/<filename:path>')
+def server_static(filename):
+    return static_file(filename, root=STATIC_PATH)
 
 def main():
     ''' Run Vanaheim '''
