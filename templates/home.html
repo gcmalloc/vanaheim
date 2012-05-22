@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" media="screen" type="text/css" href="/static/css/style.css"/>
+    {% block Head %}{% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    {% endblock %}
+    <footer>
+      Powered by <a href="https://github.com/speredenn/vanaheim">Vanaheim</a>, a <a href="http://bottlepy.org/docs/stable/">bottle</a>-based <a href="http://python.org/">python</a> website engine, & <a href="http://git-scm.com/">git</a>, the wonderful versioning system. <br /><a href="https://github.com/speredenn/vanaheim">Vanaheim</a> has been heavily inspired by the blog engines <a href="http://cloudhead.io/toto">toto</a>, <a href="https://github.com/andrewnelder/hobo">hobo</a>, and <a href="https://github/Matael/bottle-blog-engine">bobe</a>.<br /> Many thanks to the authors of those three projects.
+    </footer>
+  </body>
+</html>
