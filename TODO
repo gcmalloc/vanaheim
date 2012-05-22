@@ -1,0 +1,11 @@
+* /c/tag: list of all the contents that match that tag;
+* /d/filename: download the file from the download folder;
+* /a/name: article;
+* /b/name: breve;
+* /m/filename: access a movie directly;
+* /p/filename: access a picture directly;
+* /s/name: static page;
+* /w/name: access a presentation directly (but with the interface!);
+* /t/name: access a presentation directly (but in presentation mode!);
+
+* code a rss generation function;
