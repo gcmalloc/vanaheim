@@ -1,6 +1,7 @@
 title: A sample news
 author: speredenn
 date: 20/05/2012
+type: breve
 tags: [test, dev, python]
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget leo

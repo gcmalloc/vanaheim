@@ -1,7 +1,7 @@
 title: A sample news, a third...
 author: speredenn
 date: 24/05/2012
-type: news
+type: breve
 tags: [other, test, python]
 
 # Lorem ipsum dolor sit amet, consectetur adipiscing elit

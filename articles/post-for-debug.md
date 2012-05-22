@@ -1,6 +1,7 @@
 title: A sample post for debug
 author: speredenn
 date: 21/05/2012
+type: article
 tags: [test, debug]
 
 This post is for debug.
