@@ -3,6 +3,7 @@
 
 import logging
 import re
+import yaml
 from os.path import splitext
 from markdown import markdown
 from bottle import Bottle, run, jinja2_template as template
@@ -10,7 +11,7 @@ from bottle import static_file
 import settings
 
 
-vanaheim = Bottle()
+VANAHEIM = Bottle()
 
 # Get the settings from settings.py
 # if not attibuted in settings.py, set variable to nil
@@ -40,44 +41,76 @@ DISQUS_SHORTNAME = settings.DISQUS_SHORTNAME \
 CTYPE_LIST = {'a': 'articles', 'b': 'breves', 's': 'static', 'w': 'slides'}
 
 
-def get_file_contents(path,filename):
+def get_file_contents(path, filename):
+    ''' Description '''
     file_handle = open(path + filename, 'r')
     contents = file_handle.read().decode('utf-8')
     return contents
 
+
 def extract_meta(contents):
+    ''' Description '''
     print 'toto'
-    
+
 
 def gen_url(filename, ctype):
-    ''' Define an url for a document using its filename and its type '''
+    ''' Define an url for a document using its filename and its access
+    method'''
     basename = splitext(filename)[0]
-    url = '/'+ctype+'/'+basename
+    url = '/' + ctype + '/' + basename
     return url
 
-@vanaheim.get('/')
+def get_rule(ctype):
+    ''' Description '''
+    return 'articles'
+    pass
+
+@VANAHEIM.get('/')
 def home():
     ''' Homepage definition '''
-    return 'Hello'
+    return 'Hello!'
 
-@vanaheim.get('/<ctype>/<name>')
-def screen_contents(ctype,name):
+
+@VANAHEIM.get('/<ctype>/<name>')
+def screen_contents(ctype, name):
     ''' Return some file contents using its name and metadatas '''
-    
+    try:
+        folderpath = get_rule(ctype)
+        src = open(folderpath + '/' + name + '.md','r')
+        contents = src.readlines()
+        src.close()
+    except IOError:
+        raise HTTPError(404, output='This post doesn\'t exist!')
 
-@vanaheim.get('/d/<filename:path>')
+    meta = []
+    line = contents[0]
+
+    while line !='\n':
+        meta.append(contents.pop(0))
+        line = contents[0]
+
+    metadatas = yaml.load(''.join(meta))
+
+    return metadatas
+
+
+@VANAHEIM.get('/d/<filename:path>')
 def download(filename):
     ''' Force download for files hosted in the downloads folder '''
     return static_file(filename, root=DL_PATH, download=filename)
 
-@vanaheim.get('/s/<filename:path>')
+
+@VANAHEIM.get('/s/<filename:path>')
 def server_static(filename):
+    ''' Give access to static files '''
     return static_file(filename, root=STATIC_PATH)
+
 
 def main():
     ''' Run Vanaheim '''
-    run(vanaheim, host='localhost', port=8080)
+    run(VANAHEIM, host='localhost', port=8080)
     return 0
+
 
 if __name__ == '__main__':
     main()
