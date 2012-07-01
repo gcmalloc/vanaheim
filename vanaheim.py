@@ -30,9 +30,47 @@ def home():
     return 'Hello!'
 
 
-@VANAHEIM.get('/<ctype>/<name>')
-def screen_contents(ctype, name):
-    ''' Return some file contents using its name and metadatas '''
+@VANAHEIM.get('/<ctype:re:[vpsm]>/<fileid>')
+def display_media(ctype, fileid):
+    ''' Displays a media file, from its filename directly '''
+    if ctype == 'v':
+        fpath = settings.MOVIES_PATH
+    elif ctype == 'm':
+        fpath = settings.MUSIC_PATH
+    elif ctype == 's':
+        fpath = settings.STATIC_PATH
+    elif ctype == 'p':
+        fpath = settings.PICTURES_PATH
+    else:
+        fpath = None
+    if fpath != None:
+        return static_file(fileid, root=fpath)
+    else:
+        raise HTTPError(404, output='This path doesn\'t exist!')
+
+
+@VANAHEIM.get('/d/<fileid>')
+def download_file(fileid):
+    ''' Download any media file from a direct url '''
+    if check_exists(settings.STATIC_PATH, fileid):
+        fpath = settings.STATIC_PATH
+    elif check_exists(settings.MOVIES_PATH, fileid):
+        fpath = settings.MOVIES_PATH
+    elif check_exists(settings.MUSIC_PATH, fileid):
+        fpath = settings.MUSIC_PATH
+    elif check_exists(settings.PICTURES_PATH, fileid):
+        fpath = settings.PICTURES_PATH
+    else:
+        fpath = None
+    if fpath != None:
+        return static_file(fileid, root=fpath, download=True)
+    else:
+        raise HTTPError(404, output='This file doesn\'t exist!')
+
+
+@VANAHEIM.get('/<ctype:re:[ab]>/<fileid>')
+def display_post(ctype, fileid):
+    ''' Returns a post metadatas '''
     try:
         folderpath = get_rule(ctype)
         src = open(folderpath + '/' + name + '.md','r')
