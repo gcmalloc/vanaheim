@@ -83,16 +83,12 @@ def display_post(ctype, fileid):
         src.close()
     except IOError:
         raise HTTPError(404, output='This post doesn\'t exist!')
-
     meta = []
     line = contents[0]
-
-    while line !='\n':
+    while line != '\n':
         meta.append(contents.pop(0))
         line = contents[0]
-
     metadatas = yaml.load(''.join(meta))
-
     return metadatas
 
 
@@ -110,7 +106,7 @@ def server_static(filename):
 
 def main():
     ''' Run Vanaheim '''
-    run(VANAHEIM, host='localhost', port=8080)
+    run(VANAHEIM, host='localhost', port=8080, reloader=True)
     return 0
 
 
