@@ -92,16 +92,12 @@ def display_post(ctype, fileid):
     return metadatas
 
 
-@VANAHEIM.get('/d/<filename:path>')
-def download(filename):
-    ''' Force download for files hosted in the downloads folder '''
-    return static_file(filename, root=DL_PATH, download=filename)
-
-
-@VANAHEIM.get('/s/<filename:path>')
-def server_static(filename):
-    ''' Give access to static files '''
-    return static_file(filename, root=STATIC_PATH)
+@VANAHEIM.error(403)
+@VANAHEIM.error(404)
+@VANAHEIM.error(500)
+def errors(code):
+    ''' Error management '''
+    return template("templates/error.html", code=code)
 
 
 def main():
