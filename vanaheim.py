@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 #-*- encoding: utf-8 -*-
 
-import logging
-import re
+''' Vanaheim website engine '''
+
 import yaml
-from os.path import splitext
-from markdown import markdown
+from os.path import exists, isfile
+# from os import pathsep
+# from markdown import markdown
+# from bottle import debug
 from bottle import Bottle, run, jinja2_template as template
-from bottle import static_file
+from bottle import static_file, HTTPError
 import settings
 
 
