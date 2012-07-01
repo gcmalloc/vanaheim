@@ -15,57 +15,14 @@ import settings
 
 VANAHEIM = Bottle()
 
-# Get the settings from settings.py
-# if not attibuted in settings.py, set variable to nil
-SITE_TITLE = settings.SITE_TITLE \
-    if hasattr(settings, 'SITE_TITLE') else ''
-SITE_SUBTITLE = settings.SITE_SUBTITLE \
-    if hasattr(settings, 'SITE_SUBTITLE') else ''
-POSTS_PER_PAGE = settings.POSTS_PER_PAGE \
-    if hasattr(settings, 'POSTS_PER_PAGE') else 10
-SUMMARY_DELIMITER = settings.SUMMARY_DELIMITER \
-    if hasattr(settings, 'SUMMARY_DELIMITER') else '~~~'
-SITE_PATH = settings.SITE_PATH \
-    if hasattr(settings, 'SITE_PATH') else ''
-MOVIES_PATH = settings.MOVIES_PATH \
-    if hasattr(settings, 'MOVIES_PATH') else 'movies'
-SLIDES_PATH = settings.SLIDES_PATH \
-    if hasattr(settings, 'SLIDES_PATH') else 'slides'
-PICS_PATH = settings.PICS_PATH \
-    if hasattr(settings, 'PICS_PATH') else 'pics'
-DL_PATH = settings.DL_PATH \
-    if hasattr(settings, 'DL_PATH') else 'downloads'
-STATIC_PATH = settings.STATIC_PATH \
-    if hasattr(settings, 'STATIC_PATH') else 'static'
-DISQUS_SHORTNAME = settings.DISQUS_SHORTNAME \
-    if hasattr(settings, 'DISQUS_SHORTNAME') else ''
 
-CTYPE_LIST = {'a': 'articles', 'b': 'breves', 's': 'static', 'w': 'slides'}
+def check_exists(folderpath, filename):
+    ''' Check if a file exists '''
+    if exists(folderpath) and isfile(folderpath + '/' + filename):
+        return True
+    else:
+        return False
 
-
-def get_file_contents(path, filename):
-    ''' Description '''
-    file_handle = open(path + filename, 'r')
-    contents = file_handle.read().decode('utf-8')
-    return contents
-
-
-def extract_meta(contents):
-    ''' Description '''
-    print 'toto'
-
-
-def gen_url(filename, ctype):
-    ''' Define an url for a document using its filename and its access
-    method'''
-    basename = splitext(filename)[0]
-    url = '/' + ctype + '/' + basename
-    return url
-
-def get_rule(ctype):
-    ''' Description '''
-    return 'articles'
-    pass
 
 @VANAHEIM.get('/')
 def home():
