@@ -72,8 +72,13 @@ def download_file(fileid):
 def display_post(ctype, fileid):
     ''' Returns a post metadatas '''
     try:
-        folderpath = get_rule(ctype)
-        src = open(folderpath + '/' + name + '.md','r')
+        if ctype == 'a':
+            folderpath = settings.SITE_PATH + 'articles'
+        elif ctype == 'b':
+            folderpath = settings.SITE_PATH + 'breves'
+        else:
+            raise HTTPError(404, output='This path doesn\'t exist!')
+        src = open(folderpath + '/' + fileid + '.md', 'r')
         contents = src.readlines()
         src.close()
     except IOError:
