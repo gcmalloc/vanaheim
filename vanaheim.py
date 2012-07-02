@@ -42,11 +42,8 @@ def display_media(ctype, fileid):
     elif ctype == 'p':
         fpath = settings.PICTURES_PATH
     else:
-        fpath = None
-    if fpath != None:
-        return static_file(fileid, root=fpath)
-    else:
         raise HTTPError(404, output='This path doesn\'t exist!')
+    return static_file(fileid, root=fpath)
 
 
 @VANAHEIM.get('/d/<fileid>')
@@ -61,11 +58,8 @@ def download_file(fileid):
     elif check_exists(settings.PICTURES_PATH, fileid):
         fpath = settings.PICTURES_PATH
     else:
-        fpath = None
-    if fpath != None:
-        return static_file(fileid, root=fpath, download=True)
-    else:
         raise HTTPError(404, output='This file doesn\'t exist!')
+    return static_file(fileid, root=fpath, download=True)
 
 
 @VANAHEIM.get('/<ctype:re:[ab]>/<fileid>')
