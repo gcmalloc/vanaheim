@@ -18,7 +18,7 @@ VANAHEIM = Bottle()
 
 def check_exists(folderpath, filename):
     ''' Check if a file exists '''
-    if exists(folderpath) and isfile(folderpath + '/' + filename):
+    if exists(folderpath) and isfile(os.path.join(folderpath, filename)):
         return True
     else:
         return False
@@ -78,7 +78,7 @@ def display_post(ctype, fileid):
             folderpath = settings.SITE_PATH + 'breves'
         else:
             raise HTTPError(404, output='This path doesn\'t exist!')
-        src = open(folderpath + '/' + fileid + '.md', 'r')
+        src = open(os.join(folderpath, fileid) + '.md', 'r')
         contents = src.readlines()
         src.close()
     except IOError:
